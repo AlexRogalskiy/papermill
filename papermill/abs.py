@@ -5,7 +5,7 @@ import io
 from azure.storage.blob import BlobServiceClient
 
 
-class AzureBlobStore(object):
+class AzureBlobStore:
     """
     Represents a Blob of storage on Azure
 
@@ -20,7 +20,7 @@ class AzureBlobStore(object):
     def _blob_service_client(self, account_name, sas_token):
 
         blob_service_client = BlobServiceClient(
-            "{account}.blob.core.windows.net".format(account=account_name), sas_token
+            f"{account_name}.blob.core.windows.net", sas_token
         )
         return blob_service_client
 
@@ -32,7 +32,7 @@ class AzureBlobStore(object):
         """
         match = re.match(r"abs://(.*)\.blob\.core\.windows\.net\/(.*?)\/(.*)\?(.*)$", url)
         if not match:
-            raise Exception("Invalid azure blob url '{0}'".format(url))
+            raise Exception(f"Invalid azure blob url '{url}'")
         else:
             params = {
                 "account": match.group(1),
